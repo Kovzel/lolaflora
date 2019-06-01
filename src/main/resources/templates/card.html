@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="utf-8"/>
+    <title>Flower</title>
+    <link rel="icon" href="/images/miniLogo.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="/card.css"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+</head>
+
+<header>
+    <div class="row">
+        <div class="header-item col-3 col-sm-2 col-xl-2 ">
+            <a href="/"><img src="/images/logo.png" width="195" height="35.5" alt="logo" class="logo"></a>
+        </div>
+        <div class="nav  col-1 col-sm-1 col-xl-6">
+            <div class="col-8 col-sm-9 col-xl-10">
+                <form action="http://localhost:8080/search/">
+                    <input id="search" class="search" type="text" name="text" placeholder="Поиск товаров">
+                    <button type="submit"><img src="/images/search.png" width="24" height="24"></button>
+                </form>
+            </div>
+            <div class="col">
+                <form action="/history">
+                    <button type="submit" class="man col-3"><img src="/images/sign-in.png" width="24" height="24">
+                    </button>
+                </form>
+            </div>
+            <div class="col">
+                <form action="/payment">
+                    <button type="submit" class="man col-3"><img src="/images/cart.png" width="24" height="24">
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="menu row col-12">
+    </div>
+</header>
+<br>
+<br>
+<br>
+<br>
+<body>
+<main>
+    <section class="info">
+        <div class="row">
+            <div class="col-10 col-xl-7">
+                <script th:inline="javascript">
+                    var src = /*[[${flower.srcImage}]]*/ 'default';
+                    document.write('<img src="' + src + '" class="flower">')
+                </script>
+            </div>
+            <div class="cart">
+                <div class="size">
+                    <p th:text="'В корзине: ' + ${cart}">
+                </div>
+                <div>
+                    <form th:action="@{'/flowers/' + ${flower.id}}" method="post">
+                        <button class="add">Добавить в корзину</button>
+                    </form>
+                </div>
+            </div>
+            <br>
+        </div>
+    </section>
+    <br>
+    <section class="details  col-12">
+        <div class="det">
+            <h2>Детали товара</h2>
+            <p th:text="'Название: ' + ${flower.name}"></p>
+            <p th:text="'Цена: ' + ${flower.price}"></p>
+            <p th:text="'Описание: ' + ${flower.description}"></p>
+            <p th:text="'ID товара: ' + ${flower.id}"></p>
+        </div>
+    </section>
+
+    <section class="card">
+        <h1>Рекомендации для Вас</h1>
+        <div class="row">
+            <ul th:each="flower : ${popFlowers}">
+                <div class="card-item col-10 col-xl-3 col-sm-5 ">
+                    <a th:href="@{'/flowers/' + ${flower.id}}">
+                        <script th:inline="javascript">
+                            var src = /*[[${flower.srcImage}]]*/ 'default';
+                            document.write('<img src="' + src + '">')
+                        </script>
+                        <div class="text">
+                            <p th:text="${flower.name}"></p>
+                            <p th:text="${flower.price} + ' BR'"></p>
+                        </div>
+                    </a>
+                </div>
+            </ul>
+        </div>
+    </section>
+
+    <section class="opinions">
+        <div></div>
+        <div></div>
+    </section>
+
+    <section class="card">
+        <h2>Последние просмотренные</h2>
+        <div class="row ">
+            <ul th:each="flower : ${lastFlowers}">
+                <div class="card-item col-10 col-xl-3 col-sm-5 ">
+                    <a th:href="@{'/flowers/' + ${flower.id}}">
+                        <script th:inline="javascript">
+                            var src = /*[[${flower.srcImage}]]*/ 'default';
+                            document.write('<img src="' + src + '">')
+                        </script>
+                        <div class="text">
+                            <p th:text="${flower.name}"></p>
+                            <p th:text="${flower.price} + ' BR'"></p>
+                        </div>
+                    </a>
+                </div>
+            </ul>
+        </div>
+    </section>
+</main>
+</body>
+<footer>
+    <br>
+    <div class="socnet">
+        <div class="row ">
+            <div>
+                <a href="https://www.facebook.com"><img src="/images/facebook.svg"></a>
+                <a href="https://www.instagram.com"><img src="/images/instagram.svg"></a>
+                <a href="https://www.twitter.com"><img src="/images/twitter.svg"></a>
+            </div>
+        </div>
+    </div>
+    <br>
+    <br>
+    <div class="promise">
+        We are delivering happiness.
+    </div>
+    <br>
+    <div class="partners">
+        <a><img src="/images/partners.png" width="1029" height="57" alt="partners" class="partners"></a>
+    </div>
+    <br>
+    <div class="countries col-12 ">
+        <div class="countries-set row">
+            <div class="countries-item col-4 col-xl-2">Беларусь</div>
+            <div class="countries-item col-4 col-xl-2">Украина</div>
+            <div class="countries-item col-4 col-xl-2">Россия</div>
+            <div class="countries-item col-4 col-xl-2">Польша</div>
+            <div class="countries-item col-4 col-xl-2">Латвия</div>
+            <div class="countries-item col-4 col-xl-2">Литва</div>
+        </div>
+    </div>
+    <div class="proofs">
+        <div class="proofs-item col-8">
+            Где бы ни находились ваши близкие, Lolaflora сможет доставить им цветочные подарки! Воспользуйтесь нашей
+            профессиональной и дружной международной службой доставки цветов, чтобы отправить красивые цветы вашим
+            дорогим друзьям и родственникам на праздники и особые даты или просто так. Цветы — это универсальный жест,
+            понятный на любом языке. Расстояние не должно помешать вам отправить радостные эмоции своим близким —
+            выберите свой идеальный букет от LolaFlora прямо сейчас.
+        </div>
+        <div class="author">Copyright © LolaFlora B.V.</div>
+    </div>
+</footer>
+</html>

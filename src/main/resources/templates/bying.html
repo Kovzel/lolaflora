@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="utf-8"/>
+    <title>Flower</title>
+    <link rel="icon" href="/images/miniLogo.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="/bying.css"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+</head>
+
+<header>
+    <div class="row">
+        <div class="header-item col-3 col-sm-2 col-xl-2 ">
+            <a href="/"><img src="/images/logo.png" width="195" height="35.5" alt="logo" class="logo"></a>
+        </div>
+        <div class="nav  col-1 col-sm-1 col-xl-6">
+            <div class="col-8 col-sm-9 col-xl-10">
+                <form action="http://localhost:8080/search/">
+                    <input id="search" class="search" type="text" name="text" placeholder="Поиск товаров">
+                    <button type="submit"><img src="/images/search.png" width="24" height="24"></button>
+                </form>
+            </div>
+            <div class="col">
+                <form action="/history">
+                    <button type="submit" class="man col-3"><img src="images/sign-in.png" width="24" height="24">
+                    </button>
+                </form>
+            </div>
+            <div class="col">
+                <form action="/payment">
+                    <button type="submit" class="man col-3"><img src="images/cart.png" width="24" height="24">
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="menu row col-12">
+    </div>
+</header>
+
+<body>
+<main>
+    <div class="title ">
+        <h2>ОФОРМЛЕНИЕ ЗАКАЗА</h2>
+    </div>
+    <div class="flowers row">
+        <ul th:each="flower : ${cast}">
+            <div class="item col-10 col-xl-3 col-sm-5 ">
+                <a>
+                    <script th:inline="javascript">
+                        var src = /*[[${flower.srcImage}]]*/ 'default';
+                        document.write('<img src="' + src + '">')
+                    </script>
+                </a>
+            </div>
+            <p th:text="${flower.name}"></p>
+            <p th:text="${flower.price} + ' BR'"></p>
+        </ul>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-75">
+            <div class="container">
+                <form th:action="@{/history}" th:object="${order}" method="post">
+
+                    <div class="row">
+                        <div class="col-50">
+                            <h3>Платежный адрес</h3>
+                            <label for="name"><i class="fa fa-user"></i> ИФО</label>
+                            <input type="text" id="name" name="name" placeholder="Алексей Ковзель Андреевич"
+                                   th:field="*{nameUser}">
+                            <label for="email"><i class="fa fa-envelope"></i> Email</label>
+                            <input type="text" id="email" name="email" placeholder="alexey.kovzel@gmail.com"
+                                   th:field="*{emailUser}">
+                            <label for="telephone"><i class="fa fa-address-card-o"></i> Телефон</label>
+                            <input type="text" id="telephone" name="telephone" placeholder="+375294862950"
+                                   th:field="*{telephoneUser}">
+                            <label for="address"><i class="fa fa-institution"></i> Адресс</label>
+                            <input type="text" id="address" name="address"
+                                   placeholder="ул. Новокузнецкая д. 14 кв. 19" th:field="*{addressUser}">
+
+                            <div class="row">
+                                <div class="col-50">
+                                    <label for="country">Страна</label>
+                                    <input type="text" id="country" name="country" placeholder="Беларусь"
+                                           th:field="*{countryUser}">
+                                </div>
+                                <div class="col-50">
+                                    <label for="city">Город</label>
+                                    <input type="text" id="city" name="city" placeholder="Минск"
+                                           th:field="*{cityUser}">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-50">
+                            <h3>Оплата</h3>
+                            <div class="cards">
+                            <label for="name">Принимаемые карты</label>
+                                <a><img src="/images/cards.png" width="400" height="33.75" alt="cards" class="cards"></a>
+                            </div>
+                            <label for="cname">Имя на карте</label>
+                            <input type="text" id="cname" name="cardname" placeholder="Kovzel Alexey"
+                                   th:field="*{NameOnCard}">
+                            <label for="ccnum">Номер кредитной карты</label>
+                            <input type="text" id="ccnum" name="cardnumber" placeholder="1111-2222-3333-4444"
+                                   th:field="*{CreditCardNumber}">
+                            <label for="expmonth">Exp Месяц</label>
+                            <input type="text" id="expmonth" name="expmonth" placeholder="September"
+                                   th:field="*{ExpMonth}">
+
+                            <div class="row">
+                                <div class="col-50">
+                                    <label for="expyear">Exp Год</label>
+                                    <input type="text" id="expyear" name="expyear" placeholder="2018"
+                                           th:field="*{ExpYear}">
+                                </div>
+                                <div class="col-50">
+                                    <label for="cvv">CVV</label>
+                                    <input type="text" id="cvv" name="cvv" placeholder="352" th:field="*{CVV}">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <input type="submit" value="Заказать" class="btn">
+                </form>
+            </div>
+        </div>
+
+        <div class="col-25">
+            <div class="container">
+                <h4>Cart<span class="price" style="color:black"><i class="fa fa-shopping-cart"></i><b th:text="${cartSize}"></b></span></h4>
+                <ul th:each="flower : ${cast}">
+                    <p><a th:href="@{'/flowers/' + ${flower.id}}" th:text="${flower.name}"></a> <span class="price"><a
+                            th:text="${flower.price} + ' руб'"></a></span></p>
+                </ul>
+                <hr>
+                <p>Итоговая цена: <span class="price" style="color:black"><b th:text="${price} + ' РУБ'"></b></span></p>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+<br>
+<br>
+<br>
+<br>
+<footer>
+    <br>
+    <div class="socnet">
+        <div class="row ">
+            <div>
+                <a href="https://www.facebook.com"><img src="/images/facebook.svg"></a>
+                <a href="https://www.instagram.com"><img src="/images/instagram.svg"></a>
+                <a href="https://www.twitter.com"><img src="/images/twitter.svg"></a>
+            </div>
+        </div>
+    </div>
+    <br>
+    <br>
+    <div class="promise">
+        We are delivering happiness.
+    </div>
+    <br>
+    <div class="partners">
+        <a><img src="/images/partners.png" width="1029" height="57" alt="partners" class="partners"></a>
+    </div>
+    <br>
+    <div class="countries col-12 ">
+        <div class="countries-set row">
+            <div class="countries-item col-4 col-xl-2">Беларусь</div>
+            <div class="countries-item col-4 col-xl-2">Украина</div>
+            <div class="countries-item col-4 col-xl-2">Россия</div>
+            <div class="countries-item col-4 col-xl-2">Польша</div>
+            <div class="countries-item col-4 col-xl-2">Латвия</div>
+            <div class="countries-item col-4 col-xl-2">Литва</div>
+        </div>
+    </div>
+    <div class="proofs">
+        <div class="proofs-item col-8">
+            Где бы ни находились ваши близкие, Lolaflora сможет доставить им цветочные подарки! Воспользуйтесь нашей
+            профессиональной и дружной международной службой доставки цветов, чтобы отправить красивые цветы вашим
+            дорогим друзьям и родственникам на праздники и особые даты или просто так. Цветы — это универсальный жест,
+            понятный на любом языке. Расстояние не должно помешать вам отправить радостные эмоции своим близким —
+            выберите свой идеальный букет от LolaFlora прямо сейчас.
+        </div>
+        <div class="author">Copyright © LolaFlora B.V.</div>
+    </div>
+</footer>
+</html>
